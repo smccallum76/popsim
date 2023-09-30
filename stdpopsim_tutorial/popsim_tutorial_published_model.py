@@ -51,3 +51,30 @@ print("model mutation rate: ", model.mutation_rate)
 contig = species.get_contig("chr22", mutation_rate=model.mutation_rate)
 print("mean mutation rate from the demographic model: ", contig.mutation_rate)
 print(contig.mutation_rate==model.mutation_rate)
+
+""" 
+------------------------------------------------------------------------------------------------------------------------
+SAMPLING SCHEME AND SIMULATIONS
+Specification of the number of samples from each population. In this example there are 5 diploids each from 
+YRI, and CHB, and zero from CEU. The simulation engine selected is 'msprime'. 
+------------------------------------------------------------------------------------------------------------------------
+"""
+print("\n", "-----------------------------------------------------------------------------")
+print("SAMPLING SCHEME AND SIMULATIONS")
+print("-----------------------------------------------------------------------------")
+
+samples = {"YRI": 5, "CHB": 5, "CEU": 0}  # 5 diploids from YRI and CHB, zero from CEU
+engine = std.get_engine("msprime")  # define the engine to use for sims
+# ts ==> tree sequence? maybe
+# the output of ts is a tree sequence that describes the history and genotype of 20 haploid genomes, between which
+# there are ~150K variant sites.
+ts = engine.simulate(model, contig, samples)
+print("number of variant sites: ", ts.num_sites)
+print("number of haploid samples: ", ts.num_samples)
+
+# review metadate from the simulation to make sure it is what was asked for
+for k, pop in enumerate(ts.populations()):
+    print(
+        f"The tree sequence has {len(ts.samples(k))} samples from "
+        f"population {k}, which si {pop.metadata['id']}."
+    )
