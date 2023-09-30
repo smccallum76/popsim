@@ -1,5 +1,5 @@
 """
-Review stdpopsim tutorial
+Review stdpopsim tutorial - part 1 - published model
 
 https://popsim-consortium.github.io/stdpopsim-docs/stable/tutorial.html
 """
